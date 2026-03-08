@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillSpark — Math &amp; Music Courses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f8f9fc;
+      --surface: #ffffff;
+      --text: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --accent-math: #3b6cf5;
+      --accent-math-light: #eaf0ff;
+      --accent-music: #8b5cf6;
+      --accent-music-light: #f3eeff;
+      --border: #e4e7f0;
+      --radius: 18px;
+      --shadow-sm: 0 1px 3px rgba(26,29,46,0.04);
+      --shadow-md: 0 8px 30px rgba(26,29,46,0.07);
+      --shadow-lg: 0 20px 60px rgba(26,29,46,0.10);
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(248,249,252,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: var(--shadow-sm); }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 700; font-size: 1.35rem;
+      color: var(--text);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo-icon {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--accent-math), var(--accent-music));
+      border-radius: 9px;
+      display: grid; place-items: center;
+      color: #fff; font-size: .9rem;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-secondary);
+      font-weight: 500; font-size: .95rem;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--text);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: .9rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .mobile-toggle {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      width: 36px; height: 36px;
+      flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+    }
+    .mobile-toggle span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      padding: 140px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 900px;
+      background: radial-gradient(circle, rgba(59,108,245,0.06) 0%, rgba(139,92,246,0.04) 40%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 16px 6px 8px;
+      font-size: .82rem; font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+    .hero-badge-dot {
+      width: 8px; height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      max-width: 780px;
+      margin: 0 auto 24px;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(135deg, var(--accent-math), var(--accent-music));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex; gap: 14px;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-family: var(--font-body);
+      font-weight: 600; font-size: .95rem;
+      text-decoration: none;
+      cursor: pointer; border: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-math {
+      background: var(--accent-math);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(59,108,245,0.3);
+    }
+    .btn-math:hover { box-shadow: 0 8px 30px rgba(59,108,245,0.35); }
+    .btn-music {
+      background: var(--accent-music);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(139,92,246,0.3);
+    }
+    .btn-music:hover { box-shadow: 0 8px 30px rgba(139,92,246,0.35); }
+    .btn-outline {
+      background: var(--surface);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { box-shadow: var(--shadow-md); }
+
+    /* ---- SECTION SHARED ---- */
+    section { padding: 80px 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-display);
+      font-weight: 600; font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 6px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* ---- MATH COURSE ---- */
+    #math { background: var(--bg); }
+    #math .section-label {
+      background: var(--accent-math-light);
+      color: var(--accent-math);
+    }
+    .math-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .math-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: transform .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .math-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .math-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-math), #60a5fa);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .math-card:hover::after { opacity: 1; }
+    .card-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .math-card .card-icon {
+      background: var(--accent-math-light);
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-weight: 600; font-size: 1.12rem;
+      margin-bottom: 10px;
+    }
+    .card-desc {
+      color: var(--text-secondary);
+      font-size: .92rem;
+      line-height: 1.65;
+    }
+    .card-tag {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: .78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .math-card .card-tag {
+      background: var(--accent-math-light);
+      color: var(--accent-math);
+    }
+
+    /* ---- INTERACTIVE DEMO ---- */
+    .demo-section {
+      padding: 60px 24px;
+    }
+    .demo-wrapper {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .demo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: var(--shadow-md);
+    }
+    .demo-card h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.35rem;
+      margin-bottom: 8px;
+    }
+    .demo-card p {
+      color: var(--text-secondary);
+      font-size: .92rem;
+      margin-bottom: 28px;
+    }
+    .tip-calc {
+      display: flex; flex-direction: column; gap: 18px;
+    }
+    .input-group label {
+      display: block;
+      font-weight: 500; font-size: .85rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .input-group input:focus, .input-group select:focus {
+      border-color: var(--accent-math);
+    }
+    .tip-result {
+      background: var(--accent-math-light);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .tip-result .amount {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--accent-math);
+    }
+    .tip-result .label {
+      font-size: .85rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .tip-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+
+    /* ---- PIANO DEMO ---- */
+    .piano-demo h3 { color: var(--accent-music); }
+    .piano-keys {
+      display: flex;
+      position: relative;
+      height: 180px;
+      user-select: none;
+      margin-bottom: 20px;
+    }
+    .white-key {
+      flex: 1;
+      background: #fff;
+      border: 1.5px solid #ddd;
+      border-radius: 0 0 10px 10px;
+      cursor: pointer;
+      transition: background .1s, transform .1s;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 12px;
+      font-size: .75rem;
+      font-weight: 600;
+      color: #bbb;
+    }
+    .white-key:hover { background: #f5f0ff; }
+    .white-key.active {
+      background: linear-gradient(to bottom, #f5f0ff, #ede5ff);
+      transform: scaleY(0.98);
+      transform-origin: top;
+    }
+    .black-key {
+      position: absolute;
+      width: 9%;
+      height: 58%;
+      background: #1a1d2e;
+      border-radius: 0 0 6px 6px;
+      z-index: 2;
+      cursor: pointer;
+      transition: background .1s;
+    }
+    .black-key:hover { background: #3b3f57; }
+    .black-key.active { background: var(--accent-music); }
+    .piano-song-btns {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .song-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: .82rem;
+      cursor: pointer;
+      transition: all .2s;
+      color: var(--text);
+    }
+    .song-btn:hover, .song-btn.active {
+      border-color: var(--accent-music);
+      background: var(--accent-music-light);
+      color: var(--accent-music);
+    }
+
+    /* ---- MUSIC COURSE ---- */
+    #music { background: var(--surface); }
+    #music .section-label {
+      background: var(--accent-music-light);
+      color: var(--accent-music);
+    }
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .music-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: transform .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .music-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .music-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-music), #c084fc);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .music-card:hover::after { opacity: 1; }
+    .music-card .card-icon {
+      background: var(--accent-music-light);
+    }
+    .music-card .card-tag {
+      background: var(--accent-music-light);
+      color: var(--accent-music);
+    }
+
+    /* ---- MENTAL MATH GAME ---- */
+    .game-section {
+      background: var(--bg);
+      padding: 80px 24px;
+    }
+    .game-wrapper {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .game-wrapper .section-label {
+      background: linear-gradient(135deg, var(--accent-math-light), var(--accent-music-light));
+      color: var(--accent-math);
+    }
+    .game-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      box-shadow: var(--shadow-md);
+      margin-top: 32px;
+    }
+    .game-problem {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 28px;
+      letter-spacing: -0.02em;
+    }
+    .game-input-row {
+      display: flex; gap: 12px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .game-input-row input {
+      width: 140px;
+      padding: 14px 18px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      text-align: center;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .game-input-row input:focus {
+      border-color: var(--accent-math);
+    }
+    .game-input-row button {
+      padding: 14px 24px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent-math);
+      color: #fff;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .game-input-row button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(59,108,245,0.3);
+    }
+    .game-score {
+      display: flex; justify-content: center; gap: 32px;
+      margin-top: 16px;
+    }
+    .game-score div {
+      font-size: .9rem;
+      color: var(--text-secondary);
+    }
+    .game-score strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--text);
+    }
+    .game-feedback {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-top: 16px;
+      min-height: 28px;
+      transition: color .2s;
+    }
+    .game-feedback.correct { color: #22c55e; }
+    .game-feedback.wrong { color: #ef4444; }
+    .game-streak-bar {
+      margin-top: 20px;
+      height: 6px;
+      background: var(--bg);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .game-streak-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-math), var(--accent-music));
+      border-radius: 3px;
+      width: 0%;
+      transition: width .4s ease;
+    }
+
+    /* ---- PATTERN SECTION ---- */
+    .pattern-section {
+      background: var(--surface);
+      padding: 80px 24px;
+    }
+    .pattern-wrapper {
+      max-width: 640px; margin: 0 auto; text-align: center;
+    }
+    .pattern-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      box-shadow: var(--shadow-md);
+      margin-top: 32px;
+    }
+    .pattern-sequence {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .pattern-num {
+      width: 54px; height: 54px;
+      border-radius: 12px;
+      background: var(--accent-math-light);
+      display: grid; place-items: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--accent-math);
+    }
+    .pattern-num.blank {
+      border: 2px dashed var(--accent-math);
+      background: transparent;
+      color: var(--accent-math);
+      font-size: 1.4rem;
+    }
+    .pattern-choices {
+      display: flex; gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .pattern-choice {
+      width: 60px; height: 48px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all .2s;
+      color: var(--text);
+    }
+    .pattern-choice:hover {
+      border-color: var(--accent-math);
+      background: var(--accent-math-light);
+      color: var(--accent-math);
+    }
+    .pattern-choice.correct-pick {
+      border-color: #22c55e;
+      background: #f0fdf4;
+      color: #22c55e;
+    }
+    .pattern-choice.wrong-pick {
+      border-color: #ef4444;
+      background: #fef2f2;
+      color: #ef4444;
+    }
+    .pattern-feedback {
+      font-weight: 600;
+      margin-top: 20px;
+      min-height: 28px;
+    }
+    .pattern-score {
+      margin-top: 12px;
+      font-size: .9rem;
+      color: var(--text-secondary);
+    }
+
+    /* ---- CTA ---- */
+    .cta-section {
+      padding: 100px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(59,108,245,0.04), rgba(139,92,246,0.04));
+    }
+    .cta-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .cta-section p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 480px;
+      margin: 0 auto 36px;
+      position: relative;
+    }
+    .cta-actions {
+      display: flex; gap: 14px;
+      justify-content: center; flex-wrap: wrap;
+      position: relative;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.6);
+      padding: 60px 24px 32px;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+    .footer-brand .logo { color: #fff; margin-bottom: 12px; }
+    .footer-brand .logo-icon { background: rgba(255,255,255,0.15); }
+    .footer-brand p { font-size: .9rem; line-height: 1.7; max-width: 280px; }
+    .footer-col h4 {
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .9rem;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .footer-col a {
+      display: block;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      font-size: .9rem;
+      margin-bottom: 10px;
+      transition: color .2s;
+    }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      max-width: 1200px; margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      font-size: .82rem;
+    }
+
+    /* ---- SCROLL ANIMATIONS ---- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      .demo-wrapper { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .mobile-toggle { display: flex; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 68px; left: 0; right: 0;
+        background: var(--surface);
+        padding: 20px 24px;
+        gap: 16px;
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow-md);
+      }
+      .footer-inner { grid-template-columns: 1fr; }
+      .game-card, .pattern-card, .demo-card { padding: 32px 20px; }
+      .piano-keys { height: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">S</div>
+        SkillSpark
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#math">Math</a></li>
+        <li><a href="#music">Music</a></li>
+        <li><a href="#practice">Practice</a></li>
+        <li><a href="#" class="nav-cta">Get Started</a></li>
+      </ul>
+      <button class="mobile-toggle" id="menuBtn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge reveal">
+      <div class="hero-badge-dot"></div>
+      New courses available now
+    </div>
+    <h1 class="reveal reveal-delay-1">Learn <span class="grad">Real-World Math</span> &amp; <span class="grad">Music</span> at Your Own Pace</h1>
+    <p class="reveal reveal-delay-2">Build practical math skills from calculating tips to identifying patterns. Learn to read music and play songs on your device — no instrument required.</p>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="#math" class="btn btn-math">Explore Math Course</a>
+      <a href="#music" class="btn btn-music">Explore Music Course</a>
+    </div>
+  </section>
+
+  <!-- MATH COURSE -->
+  <section id="math">
+    <div class="container">
+      <div class="section-label reveal">&#x1F4D0; Math Course</div>
+      <h2 class="section-title reveal reveal-delay-1">Sharpen Skills You Use Every Day</h2>
+      <p class="section-desc reveal reveal-delay-2">From tipping at restaurants to budgeting groceries, our math course builds the real-world confidence you need — with mental math drills to keep you sharp.</p>
+      <div class="math-grid">
+        <div class="math-card reveal">
+          <div class="card-icon">&#x1F4B0;</div>
+          <div class="card-title">Tip &amp; Tax Calculations</div>
+          <div class="card-desc">Master quick mental math for calculating tips, sales tax, and discounts so you'll never second-guess a bill again.</div>
+          <div class="card-tag">12 Lessons</div>
+        </div>
+        <div class="math-card reveal reveal-delay-1">
+          <div class="card-icon">&#x1F9E9;</div>
+          <div class="card-title">Pattern Recognition</div>
+          <div class="card-desc">Train your brain to spot number sequences, geometric patterns, and logical relationships — skills that boost problem-solving everywhere.</div>
+          <div class="card-tag">10 Lessons</div>
+        </div>
+        <div class="math-card reveal reveal-delay-2">
+          <div class="card-icon">&#x26A1;</div>
+          <div class="card-title">Mental Math Speed</div>
+          <div class="card-desc">Timed drills and clever shortcuts to multiply, divide, and estimate faster than you ever thought possible.</div>
+          <div class="card-tag">15 Lessons</div>
+        </div>
+        <div class="math-card reveal reveal-delay-3">
+          <div class="card-icon">&#x1F4CA;</div>
+          <div class="card-title">Budgeting &amp; Finance</div>
+          <div class="card-desc">Understand percentages, compound interest, and unit pricing to make smarter money decisions every day.</div>
+          <div class="card-tag">8 Lessons</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE DEMOS -->
+  <section class="demo-section">
+    <div class="demo-wrapper">
+      <!-- TIP CALCULATOR -->
+      <div class="demo-card reveal">
+        <h3>Try It: Tip Calculator</h3>
+        <p>Practice real-world math right now. Enter a bill amount and see instant results.</p>
+        <div class="tip-calc">
+          <div class="input-group">
+            <label for="billAmount">Bill Amount ($)</label>
+            <input type="number" id="billAmount" placeholder="45.00" min="0" step="0.01" value="45" />
+          </div>
+          <div class="tip-row">
+            <div class="input-group">
+              <label for="tipPercent">Tip %</label>
+              <select id="tipPercent">
+                <option value="10">10%</option>
+                <option value="15">15%</option>
+                <option value="18">18%</option>
+                <option value="20" selected>20%</option>
+                <option value="25">25%</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="splitCount">Split</label>
+              <select id="splitCount">
+                <option value="1">1 person</option>
+                <option value="2">2 people</option>
+                <option value="3">3 people</option>
+                <option value="4">4 people</option>
+              </select>
+            </div>
+          </div>
+          <div class="tip-result">
+            <div class="label">Each person pays</div>
+            <div class="amount" id="tipOutput">$54.00</div>
+            <div class="label" id="tipBreakdown">Tip: $9.00 &middot; Total: $54.00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PIANO -->
+      <div class="demo-card piano-demo reveal reveal-delay-2">
+        <h3>Try It: Play a Song</h3>
+        <p>Click or tap the keys below. Choose a song to hear a familiar melody.</p>
+        <div class="piano-keys" id="pianoKeys"></div>
+        <div class="piano-song-btns">
+          <button class="song-btn active" data-song="free">Free Play</button>
+          <button class="song-btn" data-song="twinkle">Twinkle Twinkle</button>
+          <button class="song-btn" data-song="mary">Mary Had a Lamb</button>
+          <button class="song-btn" data-song="ode">Ode to Joy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MUSIC COURSE -->
+  <section id="music">
+    <div class="container">
+      <div class="section-label reveal">&#x1F3B5; Music Course</div>
+      <h2 class="section-title reveal reveal-delay-1">Play Music on Any Device — No Instrument Needed</h2>
+      <p class="section-desc reveal reveal-delay-2">Learn to read music, understand rhythm, and play familiar songs right from your browser. All you need is curiosity and a screen.</p>
+      <div class="music-grid">
+        <div class="music-card reveal">
+          <div class="card-icon">&#x1F3BC;</div>
+          <div class="card-title">Reading Sheet Music</div>
+          <div class="card-desc">Decode notes, rests, clefs, and time signatures so you can read any piece of written music with confidence.</div>
+          <div class="card-tag">14 Lessons</div>
+        </div>
+        <div class="music-card reveal reveal-delay-1">
+          <div class="card-icon">&#x1F3B9;</div>
+          <div class="card-title">Virtual Piano Basics</div>
+          <div class="card-desc">Play melodies on an interactive keyboard using your mouse or keyboard keys — no instrument purchase required.</div>
+          <div class="card-tag">10 Lessons</div>
+        </div>
+        <div class="music-card reveal reveal-delay-2">
+          <div class="card-icon">&#x1F3B6;</div>
+          <div class="card-title">Rhythm &amp; Timing</div>
+          <div class="card-desc">Feel the beat: learn whole notes, half notes, quarter notes, and syncopation through hands-on interactive exercises.</div>
+          <div class="card-tag">8 Lessons</div>
+        </div>
+        <div class="music-card reveal reveal-delay-3">
+          <div class="card-icon">&#x1F3A4;</div>
+          <div class="card-title">Play Familiar Songs</div>
+          <div class="card-desc">Put it all together by learning to play songs you already know and love, with guided tutorials and instant feedback.</div>
+          <div class="card-tag">12 Lessons</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENTAL MATH GAME -->
+  <section class="game-section" id="practice">
+    <div class="game-wrapper">
+      <div class="section-label reveal">&#x1F9E0; Practice Zone</div>
+      <h2 class="section-title reveal reveal-delay-1">Mental Math Challenge</h2>
+      <p class="section-desc reveal reveal-delay-2" style="margin:0 auto 0">Solve as many problems as you can. Build speed and accuracy with every round.</p>
+      <div class="game-card reveal reveal-delay-3">
+        <div class="game-problem" id="gameProblem">12 + 7</div>
+        <div class="game-input-row">
+          <input type="number" id="gameAnswer" placeholder="?" aria-label="Your answer" />
+          <button id="gameSubmit">Check</button>
+        </div>
+        <div class="game-feedback" id="gameFeedback"></div>
+        <div class="game-streak-bar"><div class="game-streak-fill" id="streakFill"></div></div>
+        <div class="game-score">
+          <div><strong id="scoreCorrect">0</strong>Correct</div>
+          <div><strong id="scoreStreak">0</strong>Streak</div>
+          <div><strong id="scoreTotal">0</strong>Attempted</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PATTERN RECOGNITION -->
+  <section class="pattern-section">
+    <div class="pattern-wrapper">
+      <div class="section-label reveal">&#x1F50D; Pattern Finder</div>
+      <h2 class="section-title reveal reveal-delay-1">What Comes Next?</h2>
+      <p class="section-desc reveal reveal-delay-2" style="margin:0 auto 0">Identify the pattern and pick the missing number. Difficulty increases as you go.</p>
+      <div class="pattern-card reveal reveal-delay-3">
+        <div class="pattern-sequence" id="patternSequence"></div>
+        <div class="pattern-choices" id="patternChoices"></div>
+        <div class="pattern-feedback" id="patternFeedback"></div>
+        <div class="pattern-score" id="patternScore">Score: 0</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2 class="reveal">Ready to Start Learning?</h2>
+    <p class="reveal reveal-delay-1">Join thousands building real-world math skills and playing music — all from their browser.</p>
+    <div class="cta-actions reveal reveal-delay-2">
+      <a href="#math" class="btn btn-math">Start Math Course</a>
+      <a href="#music" class="btn btn-music">Start Music Course</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-icon">S</div>
+          SkillSpark
+        </a>
+        <p>Practical skills for everyday life. Learn math and music at your own pace, on any device.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Courses</h4>
+        <a href="#math">Math Course</a>
+        <a href="#music">Music Course</a>
+        <a href="#practice">Practice Zone</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#">Blog</a>
+        <a href="#">FAQ</a>
+        <a href="#">Community</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 SkillSpark. All rights reserved.</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
